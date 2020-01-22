@@ -20,7 +20,11 @@ class TweetController {
    * @param {View} ctx.view
    */
   async index () {
-    const tweets = await Tweet.all()
+    const tweets = await Tweet.query()
+        .with('user', builder => {
+          builder.select(["id", "username", "email"])
+        })
+        .fetch()
 
     return tweets
   }
